@@ -10,6 +10,7 @@
 void bubble_sort(int *array, size_t size)
 {
 	size_t tmp; /* store values */
+	size_t i, j;
 	int is_swapped; /* check if swap has been made */
 
 	/* loop through array */
