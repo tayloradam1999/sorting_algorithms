@@ -14,11 +14,11 @@ void bubble_sort(int *array, size_t size)
 	int is_swapped; /* check if swap has been made */
 
 	/* loop through array */
-	for(size_t i = 0; i < size; i++)
+	for(i = 0; i < size; i++)
 	{
 		/* re-initalize to 0 after every loop */
 		is_swapped = 0;
-		for(size_t j = 0; j < size - 1 - i; j++)
+		for(j = 0; j < size - 1 - i; j++)
 		{
 			/* compare adjacent elements */
 			if(array[j] > array[j + 1])
