@@ -13,14 +13,14 @@ void bubble_sort(int *array, size_t size)
 	int is_swapped; /* check if swap has been made */
 
 	/* loop through array */
-	for (size_t i = 0; i < size; i++)
+	for(size_t i = 0; i < size; i++)
 	{
 		/* re-initalize to 0 after every loop */
 		is_swapped = 0;
-		for (size_t j = 0; j < size - 1 - i; j++)
+		for(size_t j = 0; j < size - 1 - i; j++)
 		{
 			/* compare adjacent elements */
-			if (array[j] > array[j + 1])
+			if(array[j] > array[j + 1])
 			{
 				tmp = array[j];
 				array[j] = array[j + 1];
@@ -32,7 +32,7 @@ void bubble_sort(int *array, size_t size)
 			print_array(array, size);
 		}
 		/* if no swaps, exit */
-		if (!is_swapped)
+		if(!is_swapped)
 			break;
 	}
 }
