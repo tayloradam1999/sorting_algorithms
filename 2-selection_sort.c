@@ -8,12 +8,10 @@
 
 void selection_sort(int *array, size_t size)
 {
-	int min_index, temp;
+	unsigned int min_index, temp;
 	size_t curr, next;
 
-	if (size <= 1)
-		return;
-	if (size == 2 && array[0] < array[1])
+	if (array == NULL || size < 2)
 		return;
 
 	if (array)
@@ -28,12 +26,14 @@ void selection_sort(int *array, size_t size)
 				if (array[next] < array[min_index])
 					min_index = next;
 
-			/* Swap found minimum with first/current element */
-			temp = array[curr];
-			array[curr] = array[min_index];
-			array[min_index] = temp;
-
-			print_array(array, size);
+			/* Swap found minimum with first/current element if not the same */
+			if (min_index != curr)
+			{
+				temp = array[curr];
+				array[curr] = array[min_index];
+				array[min_index] = temp;
+				print_array(array, size);
+			}
 		}
 	}
 }
