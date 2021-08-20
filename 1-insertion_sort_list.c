@@ -1,6 +1,45 @@
 #include "sort.h"
 
 /**
+ * checkSwap - check if left/right nodes need to be swapped and swaps if needed
+ * @left: left node (will be smaller)
+ * @right: right node (will be larger)
+ * @list: linked list to be sorted
+ */
+void checkSwap(listint_t *left, listint_t *right, listint_t **list)
+{
+	/* If current/left node is greater than right node (incorrect) */
+	while (left->n > right->n)
+	{
+		/* Point left's next where it should go, one ahead  */
+		left->next = right->next;
+		/* Point right's prev where it should go, one behind */
+		right->prev = left->prev;
+		/* If curr is not first node, point position behind at right */
+		if (left->prev)
+			left->prev->next = right;
+		/* If right is not last node, point position ahead at left */
+		if (right->next)
+			right->next->prev = left;
+		/* Now that behind and ahead are set, point right and left at each other */
+		right->next = left;
+		left->prev = right;
+		/* If left was not head/right is not head now, set right to orig "index" */
+		if (right->prev)
+			left = right->prev;
+		else
+		{
+			/* If mover is head now, point head to it and print */
+			*list = right;
+			print_list(*list);
+			/* Break because in loop so would print more than once */
+			break;
+		}
+		print_list(*list);
+	}
+}
+
+/**
  * insertion_sort_list - Sorts a doubly linked list of integers
  * in ascending order using the Insertion sort algorithim
  * @list: Doubly linked list to sort
@@ -24,36 +63,10 @@ void insertion_sort_list(listint_t **list)
 		left = right->prev;
 		tmp = left;
 
-		/* If current/left node is greater than right node (incorrect) */
-		while (left->n > right->n)
-		{
-			/* Point left's next where it should go, one ahead  */
-			left->next = right->next;
-			/* Point right's prev where it should go, one behind */
-			right->prev = left->prev;
-			/* If curr is not first node, point position behind at right */
-			if (left->prev)
-				left->prev->next = right;
-			/* If right is not last node, point position ahead at left */
-			if (right->next)
-				right->next->prev = left;
-			/* Now that behind and ahead are set, point right and left at each other */
-			right->next = left;
-			left->prev = right;
-			/* If left was not head/right is not head now, set right to orig "index" */
-			if (right->prev)
-				left = right->prev;
-			else
-			{
-				/* If mover is head now, point head to it and print */
-				*list = right;
-				print_list(*list);
-				/* Break because in loop so would print more than once */
-				break;
-			}
-			print_list(*list);
-		}
-		/* Either out of while loop or never went into it */
+		/* Call helper function that checks if nodes need swapped and swaps */
+		checkSwap(left, right, list);
+
+		/* Either out of helper function or never went into it */
 		/* If tmp/left node is greater than mover/right node (incorrect) */
 		/* move one forward to start again */
 		if (tmp->n > right->n)
