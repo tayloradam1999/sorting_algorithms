@@ -1,4 +1,5 @@
 #include "sort.h"
+#include <stdio.h>
 
 /**
  * lomuto_partition - use Lomuto partition scheme to move pivot to last index
@@ -27,14 +28,19 @@ int lomuto_partition(int *array, size_t size, int low, int high)
 			low++;
 		}
 	}
-	// print_array(array, size);
+	if (low != x && array[0] != array[low])
+		print_array(array, size);
 
 	/* Swap pivot with last element */
-	tmp = array[low];
-	array[low] = array[high];
-	array[high] = tmp;
+	if (low != x)
+	{
+		tmp = array[low];
+		array[low] = array[high];
+		array[high] = tmp;
 
-	print_array(array, size);
+		print_array(array, size);
+	}
+
 	return (low);
 }
 
