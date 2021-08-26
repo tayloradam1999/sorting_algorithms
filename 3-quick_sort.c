@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 /**
- * lomuto_partition - use Lomuto partition scheme to move pivot to last index
+ * lomuto_partition - use Lomuto partition scheme to place pivot
  * @array: array of elements
  * @size: size of array
  * @low: index of lower element
@@ -12,35 +12,36 @@
 
 int lomuto_partition(int *array, size_t size, int low, int high)
 {
-	/* Assign pivot to last element */
-	int pivot = array[high];
-	int x, tmp;
+	int pivot, x, tmp;
 
-	/* Move pivot to end of array */
-	for (x = low; x < high; x++)
+	/* Temporarily assign pivot to last element */
+	pivot = array[high];
+
+	for (x = low; x <= high - 1; x++)
 	{
-		/* If element is less than pivot, swap it with lower element */
-		if (array[x] < pivot)
+		if (array[x] <= pivot)
 		{
-			tmp = array[x];
-			array[x] = array[low];
-			array[low] = tmp;
+			/* If element is less than pivot, swap positions until smaller all on left */
+			tmp = array[low];
+			array[low] = array[x];
+			array[x] = tmp;
+
+			/* Print if change made in previous swap */
+			if (x != low)
+				print_array(array, size);
 			low++;
 		}
 	}
-	if (low != x && array[0] != array[low])
+	/* Put pivot into place directly after all lower numbers */
+	tmp = array[low];
+	array[low] = array[high];
+	array[high] = tmp;
+
+	/* Print if pivot swapped */
+	if (low != high)
 		print_array(array, size);
 
-	/* Swap pivot with last element */
-	if (low != x)
-	{
-		tmp = array[low];
-		array[low] = array[high];
-		array[high] = tmp;
-
-		print_array(array, size);
-	}
-
+	/* Return new index of pivot */
 	return (low);
 }
 
@@ -58,7 +59,7 @@ void quicksort_recurse(int *array, size_t size, int low, int high)
 	{
 		int pivot;
 
-		/* Assigns pivot based on Lomuto partition scheme */
+		/* Partitions array by pivot and saves pivot index */
 		pivot = lomuto_partition(array, size, low, high);
 
 		/* Sort left/low side of pivot */
