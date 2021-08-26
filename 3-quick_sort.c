@@ -21,7 +21,7 @@ int lomuto_partition(int *array, size_t size, int low, int high)
 	{
 		if (array[x] <= pivot)
 		{
-			/* If element is less than pivot, swap positions until smaller all on left */
+			/* If element less than pivot, swap positions until smaller all on left */
 			tmp = array[low];
 			array[low] = array[x];
 			array[x] = tmp;
