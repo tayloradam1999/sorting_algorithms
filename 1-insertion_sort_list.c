@@ -1,4 +1,5 @@
 #include "sort.h"
+#include <stdio.h>
 
 /**
  * checkSwap - check if left/right nodes need to be swapped and swaps if needed
@@ -24,27 +25,29 @@ void checkSwap(listint_t *left, listint_t *right, listint_t **list)
 		/* Now that behind and ahead are set, point right and left at each other */
 		right->next = left;
 		left->prev = right;
-		/* If left was not head/right is not head now, set right to orig "index" */
+
+		/* If not moving number to head, will have prev to set */
 		if (right->prev)
+		{
 			left = right->prev;
+			print_list(*list);
+		}
 		else
 		{
-			/* If mover is head now, point head to it and print */
+			/* If left is head now, point head of list to same position */
 			*list = right;
 			print_list(*list);
 			/* Break because in loop so would print more than once */
 			break;
 		}
-		print_list(*list);
 	}
 }
 
 /**
- * insertion_sort_list - Sorts a doubly linked list of integers
- * in ascending order using the Insertion sort algorithim
+ * insertion_sort_list - Sorts doubly-linked list using insertion sort
  * @list: Doubly linked list to sort
- * Return: Null, prints new list after each iteration of sorting
  */
+
 void insertion_sort_list(listint_t **list)
 {
 	listint_t *left, *right, *tmp;
@@ -60,21 +63,25 @@ void insertion_sort_list(listint_t **list)
 
 	while (right)
 	{
+		/* Set both left and tmp to same position at left of right */
 		left = right->prev;
+		/* tmp will not change, while left and right will potentially be swapped */
+		/* Used to keep track of current position */
 		tmp = left;
 
 		/* Call helper function that checks if nodes need swapped and swaps */
 		checkSwap(left, right, list);
 
-		/* Either out of helper function or never went into it */
 		/* If tmp/left node is greater than mover/right node (incorrect) */
-		/* move one forward to start again */
+		/* Move right one forward to start again */
 		if (tmp->n > right->n)
 			right = tmp->next;
+
 		/* If tmp/left node is in correct position but not end of list */
-		/* skip everything except this line to start again */
+		/* Move right forward two to start again */
 		else if (tmp->next)
 			right = tmp->next->next;
+
 		/* If tmp/left node is correct position and end of list */
 		/* tmp->next has never been set and is NULL so will end */
 		else
