@@ -1,5 +1,4 @@
 #include "sort.h"
-#include <stdio.h>
 
 /**
  * lomuto_partition - use Lomuto partition scheme to place pivot
@@ -12,37 +11,41 @@
 
 int lomuto_partition(int *array, size_t size, int low, int high)
 {
-	int pivot, x, tmp;
+	int pivot, x, new, tmp;
 
 	/* Temporarily assign pivot to last element */
 	pivot = array[high];
+	/* Temporarily assign new to first index */
+	new = low;
 
 	for (x = low; x <= high - 1; x++)
 	{
 		if (array[x] <= pivot)
 		{
 			/* If element less than pivot, swap positions until smaller all on left */
-			tmp = array[low];
-			array[low] = array[x];
+			tmp = array[new];
+			array[new] = array[x];
 			array[x] = tmp;
 
 			/* Print if change made in previous swap */
-			if (x != low)
+			if (x != new)
 				print_array(array, size);
-			low++;
+			/* If enters loop, there is a number smaller than pivot */
+			new++;
 		}
 	}
-	/* Put pivot into place directly after all lower numbers */
-	tmp = array[low];
-	array[low] = array[high];
+
+	/* Put pivot into place directly after all numbers lower than it */
+	tmp = array[new];
+	array[new] = array[high];
 	array[high] = tmp;
 
 	/* Print if pivot swapped */
-	if (low != high)
+	if (new != high)
 		print_array(array, size);
 
 	/* Return new index of pivot */
-	return (low);
+	return (new);
 }
 
 /**
